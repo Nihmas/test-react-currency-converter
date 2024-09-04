@@ -17,11 +17,13 @@ type CurrencyFieldProps = {
 
 export const CurrencyField = ({ list, onCurrencyChange, onChange, currencyCode, value }: CurrencyFieldProps) => {
   const onSelect = (event: SyntheticEvent<HTMLSelectElement, Event>) => {
+    //@ts-ignore
     onCurrencyChange(event.target.value)
   }
 
   const onInputChange = (event: SyntheticEvent<HTMLInputElement, Event>) => {
     if (currencyCode) {
+      //@ts-ignore
       onChange(currencyCode, event.target.value)
     }
   }
