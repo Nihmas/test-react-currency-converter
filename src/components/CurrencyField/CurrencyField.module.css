@@ -1,0 +1,42 @@
+.root {
+    --border-color: #ccc;
+
+    display: flex;
+    font-size: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    &:has(input:focus-visible), &:has(select:focus-visible) {
+        --border-color: blue;
+    }
+}
+
+
+.input {
+    height: 48px;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border-color: #ccc;
+    padding: 0 16px;
+    border-width: 0 1px 0 0;
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.select {
+    height: 48px;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0 ;
+    border-width: 0;
+    padding: 0 8px;
+
+    &:focus-visible {
+        outline: none;
+    }
+}
