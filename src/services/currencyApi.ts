@@ -1,17 +1,56 @@
 import ApiService, {ApiServiceType} from "./api.ts";
 
+type CBApiResponse<T> = {
+  meta: {
+    code: number,
+    disclaimer: string
+  },
+  response: T
+}
+
+export type CurrencyCode = string;
+
+export type Currency = {
+  code: string;
+  decimal_mark: string;
+  id: number;
+  name: string;
+  precision: number;
+  short_code: CurrencyCode;
+  subunit: number;
+  symbol: string;
+  symbol_first: boolean;
+  thousands_separator: string;
+};
+
+type ExchangeRate = {
+  amount: number;
+  date: string;
+  from: string;
+  timestamp: number;
+  to: string;
+  value: number;
+};
+
 class CurrencyApi {
 
   constructor(private readonly api: ApiServiceType, private readonly currencyApiKey: string) {
 
   }
 
-  currencies() {
-    return ''
+  getSearchParams(url: string, params?: Record<string, string>) {
+    return `/${url}?${new URLSearchParams({
+      ...params,
+      'api_key': this.currencyApiKey
+    })}` as `/${string}`
   }
 
-  compare() {
-    return ''
+  currencies() {
+    return this.api.get<CBApiResponse<Currency[]>>(this.getSearchParams("currencies", {type: 'fiat'}))
+  }
+
+  compare(from: CurrencyCode, to: CurrencyCode, amount: number) {
+    return this.api.get<CBApiResponse<ExchangeRate>>(this.getSearchParams("convert", { from, to, amount: String(amount) }))
   }
 }
 

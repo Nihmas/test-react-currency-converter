@@ -1,15 +1,13 @@
 import {
   useEffect,
-  useState,
 } from 'react'
 import styles from "./App.module.css"
 import {CurrencyForm} from "./components/CurrencyForm/CurrenciesForm.tsx";
-
+import {useFetchHook} from "./hooks/useFetchHook.ts";
+import currencyApi from "./services/currencyApi.ts";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [state, setState] = useState<unknown[] | null>(null);
+  const { loading, state, error } = useFetchHook(() => currencyApi.currencies(), (response) => response.data.response);
 
   useEffect(() => {
     console.log("state", state);
@@ -20,7 +18,7 @@ function App() {
       <div className={styles.content}>
         {error && <p>{error.message}</p>}
         {loading && <div>loading</div>}
-        <CurrencyForm />
+        <CurrencyForm currencies={state || []}/>
       </div>
     </div>
   )
